@@ -90,3 +90,17 @@ function checkAndTriggerAlarm() {
     }
   });
 }
+function stopAlarm() {
+  const now = new Date();
+  const currentHours = Zero(now.getHours());
+  const currentMinutes = Zero(now.getMinutes());
+
+  let existingAlarms = JSON.parse(localStorage.getItem("alarms")) || [];
+
+  existingAlarms = existingAlarms.filter((alarm) => {
+    return !(currentHours === alarm.hours && currentMinutes === alarm.minutes);
+  });
+  localStorage.setItem("alarms", JSON.stringify(existingAlarms));
+  AlarmSound.pause();
+  AlarmSound.currentTime = 0;
+}
