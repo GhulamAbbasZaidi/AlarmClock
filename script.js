@@ -27,6 +27,7 @@ function timeDisplay() {
   }
   const timeFormat = `${hours}:${minutes}:${seconds}:${amPm}`;
   timerRef.innerHTML = timeFormat;
+  checkAndTriggerAlarm();
 }
 setInterval(timeDisplay, 1000);
 
@@ -50,11 +51,10 @@ function setAlarmTime() {
     hours: Zero(alarmHours),
     minutes: Zero(alarmMinutes),
   };
+
   saveAlarmToLocalStorage(alarmTime);
 
   console.log(alarmTime);
-  checkAndTriggerAlarm(alarmTime);
-
   // setInterval(function () {
   //   const now = new Date();
   //   const currentHours = now.getHours();
@@ -68,6 +68,7 @@ function setAlarmTime() {
   //   }
   // }, 1000);
 }
+
 function saveAlarmToLocalStorage(alarmTime) {
   const existingAlarms = JSON.parse(localStorage.getItem("alarms")) || [];
 
@@ -75,17 +76,16 @@ function saveAlarmToLocalStorage(alarmTime) {
 
   localStorage.setItem("alarms", JSON.stringify(existingAlarms));
 }
-function checkAndTriggerAlarm(setAlarmTime) {
+
+function checkAndTriggerAlarm() {
   const now = new Date();
   const currentHours = Zero(now.getHours());
   const currentMinutes = Zero(now.getMinutes());
 
-  // Retrieve existing alarms from local storage
   const existingAlarms = JSON.parse(localStorage.getItem("alarms")) || [];
-
-  existingAlarms.forEach((alarm) => {
-    if (currentHours === alarm.hours && currentMinutes === alarm.minutes) {
-      // Trigger the alarm sound
+  existingAlarms.forEach((alarms) => {
+    console.log();
+    if (currentHours == alarms.hours && currentMinutes == alarms.minutes) {
       AlarmSound.play();
     }
   });
